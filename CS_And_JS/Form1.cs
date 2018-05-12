@@ -56,42 +56,155 @@ namespace CS_And_JS
         private string SaveHTML()
         {
             string HTMLPath = Path.GetTempFileName();
-            string HTMLContent = @"
-<!DOCTYPE HTML PUBLIC ""-\/\/W3C//DTD HTML 4.0 Transitional//EN"">
-<html>
-    <head>
-    <meta charset=""utf-8""/>
-    <title></title>
-        <script type=""text/javascript"">
-            function TestInJS(message) 
-            {
-                alert('网页内 JS 函数 : \n' + message); 
-            }
-        </script>
-    </head>
-    <body>
-        <button onclick=""TestInJS('点击了网页内 JS 测试按钮')"">网页内 JS 代码测试</button>
-        <!-- TODO : JS 内可通过 window.external.方法名称 访问 CS 内代码 -->
-        <button onclick=""window.external.TestInCS('点击了网页内 CS 代码测试按钮')"">客户端内 CS 代码测试</button>
+            string HTMLContent = @"<!DOCTYPE html>
+<html lang=""zh"">
+<head>
+<meta charset=""UTF-8"">
+<meta http-equiv=""X-UA-Compatible"" content=""IE=edge,chrome=1""> 
+<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+<title>jQuery实现登录注册表单代码 </title>
+
+<style type=""text/css"">
+    .center{text-align: center;}
+    .login-page {
+      width: 360px;
+      padding: 8% 0 0;
+      margin: auto;
+    }
+    .form {
+      position: relative;
+      z-index: 1;
+      background: #FFFFFF;
+      max-width: 360px;
+      margin: 0 auto 100px;
+      padding: 45px;
+      text-align: center;
+      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+    .form input {
+      font-family: ""Roboto"", sans-serif;
+      outline: 0;
+      background: #f2f2f2;
+      width: 100%;
+      border: 0;
+      margin: 0 0 15px;
+      padding: 15px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    .form button {
+      font-family: ""Microsoft YaHei"",""Roboto"", sans-serif;
+      text-transform: uppercase;
+      outline: 0;
+      background: #4CAF50;
+      width: 100%;
+      border: 0;
+      padding: 15px;
+      color: #FFFFFF;
+      font-size: 14px;
+      -webkit-transition: all 0.3 ease;
+      transition: all 0.3 ease;
+      cursor: pointer;
+    }
+    .form button:hover,.form button:active,.form button:focus {
+      background: #43A047;
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .container:before, .container:after {
+      content: """";
+      display: block;
+      clear: both;
+    }
+    .container .info {
+      margin: 50px auto;
+      text-align: center;
+    }
+    .container .info h1 {
+      margin: 0 0 15px;
+      padding: 0;
+      font-size: 36px;
+      font-weight: 300;
+      color: #1a1a1a;
+    }
+    .container .info span {
+      color: #4d4d4d;
+      font-size: 12px;
+    }
+    .container .info span a {
+      color: #000000;
+      text-decoration: none;
+    }
+    .container .info span .fa {
+      color: #EF3B3A;
+    }
+    body {
+      background: #76b852; /* fallback for old browsers */
+      background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+      background: -moz-linear-gradient(right, #76b852, #8DC26F);
+      background: -o-linear-gradient(right, #76b852, #8DC26F);
+      background: linear-gradient(to left, #76b852, #8DC26F);
+      font-family: ""Roboto"", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;      
+    }
+</style>
+
+</head>
+<body>
+    <div class=""htmleaf-container"">
+        <div id=""wrapper"" class=""login-page"">
+          <div id=""login_form"" class=""form"">
+            <form class=""login-form"">
+              <input type=""text"" placeholder=""用户名"" id=""UserNameTextBox""/>
+              <input type=""password"" placeholder=""密码"" id=""PasswordTextBox""/>
+              <button id=""LoginButton"" onclick=""CheckLogin();"">登　录</button>
+            </form>
+          </div>
+          <div id=""mainpage"" style=""display:none"">
+            恭喜，登录成功！
+          </div>
+        </div>
+    </div>
+
+    <script type=""text/javascript"">
+        function CheckLogin()
+        {
+            var UserName=document.getElementById(""UserNameTextBox"").value;
+            var Password=document.getElementById(""PasswordTextBox"").value;
+            window.external.CheckLogin(UserName, Password);
+        }
+        function LoginSuccessfully(message)
+        {
+            document.getElementById(""login_form"").style.display=""none"";//隐藏
+            document.getElementById(""mainpage"").style.display = """";//显示
+            alert(message);
+        }
+    </script>
     </body>
 </html>";
             File.WriteAllText(HTMLPath, HTMLContent);
             return HTMLPath;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        //TODO : 被 JS 调用的方法必须为 Public ;
+        public void CheckLogin(string UserName,string Password)
         {
             if (webBrowser1.ReadyState != WebBrowserReadyState.Complete) return;
-            //TODO : Client 调用 Browser 代码；
-            webBrowser1.Document.InvokeScript("TestInJS",
-               new String[] { "点击了客户端内 JS 代码测试按钮" });
-        }
-
-        //TODO : 被 JS 调用的方法必须为 Public ;
-        public void TestInCS(string Message)
-        {
-            this.Text = Message;
-            MessageBox.Show(Message);
+            if (UserName == "123" && Password == "456")
+            {
+                //TODO : Client 调用 Browser 代码；
+                webBrowser1.Document.InvokeScript("LoginSuccessfully",
+               new String[] { "登录成功，欢迎访问！" });
+            }
+            else
+            {
+                MessageBox.Show("用户名或密码输入错误，请重新输入！");
+            }
         }
 
     }
