@@ -28,14 +28,7 @@ namespace CS_And_JS
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //TODO : 网页内脚本代码访问的对象赋值为this，允许 JS 访问此窗口；
-            MainWebBrowser.ObjectForScripting = this;
-            //TODO : 禁用网页右键菜单
-            MainWebBrowser.IsWebBrowserContextMenuEnabled = false;
-            //TODO : 禁用滚动条
-            MainWebBrowser.ScrollBarsEnabled = false;
-            //TODO : 禁止显示对话框
-            MainWebBrowser.ScriptErrorsSuppressed = false;
+            
         }
 
         //TODO : 被 JS 调用的方法必须为 Public ;
@@ -64,6 +57,16 @@ namespace CS_And_JS
                 Application.Exit();
             }
             MainWebBrowser.DocumentStream = HTMLStream;
+            this.Text = MainWebBrowser.DocumentTitle;
+
+            //TODO : 网页内脚本代码访问的对象赋值为this，允许 JS 访问此窗口；
+            MainWebBrowser.ObjectForScripting = this;
+            //TODO : 禁用网页右键菜单
+            MainWebBrowser.IsWebBrowserContextMenuEnabled = false;
+            //TODO : 禁用滚动条
+            MainWebBrowser.ScrollBarsEnabled = false;
+            //TODO : 禁止显示对话框
+            MainWebBrowser.ScriptErrorsSuppressed = false;
         }
 
         private MemoryStream GetHTMLStream()
