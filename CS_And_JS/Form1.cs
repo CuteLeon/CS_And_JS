@@ -11,58 +11,70 @@ using System.Windows.Forms;
 
 namespace CS_And_JS
 {
+    /* TODO : <Button></Button>标签自动刷新页面：
+     * 把 <Button></Button> 改为 <Button type="button"></Button>
+     */
     //TODO : 必须设置COM可见
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
 
     public partial class Form1 : Form
     {
-        string HTMLPath = string.Empty;
 
         public Form1()
         {
             InitializeComponent();
-            this.FormClosing += delegate (object s,FormClosingEventArgs e) { if (File.Exists(HTMLPath)) File.Delete(HTMLPath); };
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             //TODO : 网页内脚本代码访问的对象赋值为this，允许 JS 访问此窗口；
-            webBrowser1.ObjectForScripting = this;
+            MainWebBrowser.ObjectForScripting = this;
+            //TODO : 禁用网页右键菜单
+            MainWebBrowser.IsWebBrowserContextMenuEnabled = false;
+            //TODO : 禁用滚动条
+            MainWebBrowser.ScrollBarsEnabled = false;
+            //TODO : 禁止显示对话框
+            MainWebBrowser.ScriptErrorsSuppressed = false;
+        }
+
+        //TODO : 被 JS 调用的方法必须为 Public ;
+        public void CheckLogin(string UserName, string Password)
+        {
+            if (MainWebBrowser.ReadyState != WebBrowserReadyState.Complete) return;
+            if (UserName == "123" && Password == "456")
+            {
+                //TODO : Client 调用 Browser 代码；
+                MainWebBrowser.Document.InvokeScript("LoginSuccessfully",
+               new String[] { "登录成功，欢迎访问！" });
+            }
+            else
+            {
+                MessageBox.Show("用户名或密码输入错误，请重新输入！");
+            }
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
             Application.DoEvents();
-            try
+            MemoryStream HTMLStream = GetHTMLStream();
+            if (HTMLStream == null)
             {
-                HTMLPath = SaveHTML();
-                if (string.IsNullOrEmpty(HTMLPath))
-                {
-                    throw new Exception("空HTML文件路径");
-                }
-                if (!File.Exists(HTMLPath))
-                {
-                    throw new Exception("不存在的HTML文件路径");
-                }
-            } catch (Exception ex)
-            {
-                MessageBox.Show("另存HTML文件遇到异常：" + ex.Message);
+                MessageBox.Show("空的网页流，程序即将退出...");
                 Application.Exit();
             }
-            webBrowser1.Navigate(HTMLPath);
+            MainWebBrowser.DocumentStream = HTMLStream;
         }
 
-        private string SaveHTML()
+        private MemoryStream GetHTMLStream()
         {
-            string HTMLPath = Path.GetTempFileName();
             string HTMLContent = @"<!DOCTYPE html>
 <html lang=""zh"">
 <head>
 <meta charset=""UTF-8"">
 <meta http-equiv=""X-UA-Compatible"" content=""IE=edge,chrome=1""> 
 <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-<title>jQuery实现登录注册表单代码 </title>
+<title> Login </title>
 
 <style type=""text/css"">
     .center{text-align: center;}
@@ -162,12 +174,12 @@ namespace CS_And_JS
             <form class=""login-form"">
               <input type=""text"" placeholder=""用户名"" id=""UserNameTextBox""/>
               <input type=""password"" placeholder=""密码"" id=""PasswordTextBox""/>
-              <button id=""LoginButton"" onclick=""CheckLogin();"">登　录</button>
+              <button type=""button"" id=""LoginButton"" onclick=""CheckLogin();"">登　录</button>
             </form>
           </div>
-          <div id=""mainpage"" style=""display:none"">
-            恭喜，登录成功！
-          </div>
+          <center>
+             <div id=""mainpage"" style=""display:none"">恭喜，登录成功！</div>
+         </center>
         </div>
     </div>
 
@@ -187,24 +199,7 @@ namespace CS_And_JS
     </script>
     </body>
 </html>";
-            File.WriteAllText(HTMLPath, HTMLContent);
-            return HTMLPath;
-        }
-
-        //TODO : 被 JS 调用的方法必须为 Public ;
-        public void CheckLogin(string UserName,string Password)
-        {
-            if (webBrowser1.ReadyState != WebBrowserReadyState.Complete) return;
-            if (UserName == "123" && Password == "456")
-            {
-                //TODO : Client 调用 Browser 代码；
-                webBrowser1.Document.InvokeScript("LoginSuccessfully",
-               new String[] { "登录成功，欢迎访问！" });
-            }
-            else
-            {
-                MessageBox.Show("用户名或密码输入错误，请重新输入！");
-            }
+            return new MemoryStream(Encoding.UTF8.GetBytes(HTMLContent));
         }
 
     }
