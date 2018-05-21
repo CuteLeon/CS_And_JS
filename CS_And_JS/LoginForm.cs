@@ -18,10 +18,10 @@ namespace CS_And_JS
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
 
-    public partial class Form1 : Form
+    public partial class LoginForm : Form
     {
 
-        public Form1()
+        public LoginForm()
         {
             InitializeComponent();
         }

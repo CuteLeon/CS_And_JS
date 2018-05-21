@@ -1,6 +1,6 @@
 ﻿namespace CS_And_JS
 {
-    partial class Form1
+    partial class LoginForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -37,17 +37,19 @@
             this.MainWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.MainWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.MainWebBrowser.Name = "MainWebBrowser";
-            this.MainWebBrowser.Size = new System.Drawing.Size(800, 450);
+            this.MainWebBrowser.Size = new System.Drawing.Size(800, 500);
             this.MainWebBrowser.TabIndex = 0;
             // 
-            // Form1
+            // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 500);
             this.Controls.Add(this.MainWebBrowser);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "LoginForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "欢迎登录 ...";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.ResumeLayout(false);
