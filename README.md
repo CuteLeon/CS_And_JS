@@ -1,12 +1,18 @@
 # CS_And_JS
 实现Client内嵌Browser，并允许 CS 和 JS 代码互相通信和调用;
+***
 
 > ## 程序结构：
 
 * 外壳为C#程序，Form内置WebBrowser控件用于显示HTML;
 * 通过外壳C#代码和内置JS代码交互实现用户验证功能;
+***
 
+> ### WebBrowser 内核：
 ![image](./README/screen.png)
+> ### CefSharp 内核：
+![image](./README/cefsharpscreen.png)
+***
 
 > ## 验证流程：
 
