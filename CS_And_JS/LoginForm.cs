@@ -9,6 +9,12 @@ using System.Security.Permissions;
 using System.Text;
 using System.Windows.Forms;
 
+/* 使用微软Microsoft提供的WebBrowser控件，但是对CSS和JS支持超级差，
+ * 唯一的优点是轻量（但易内存泄漏），不需要安装第三方包和库，
+ * 对平台框架几乎没有限制
+ */
+
+
 namespace CS_And_JS
 {
     /* TODO : <Button></Button>标签自动刷新页面：
