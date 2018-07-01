@@ -15,7 +15,8 @@ namespace CS_And_JS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            //Application.Run(new LoginForm());
+            Application.Run(new CefSharpLoginForm());
         }
     }
 }
