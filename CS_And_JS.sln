@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2043
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS_And_JS", "CS_And_JS\CS_And_JS.csproj", "{0886DA54-2CAA-46C7-8C89-D719A3399970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFCefSharpDemo", "WPFCefSharpDemo\WPFCefSharpDemo.csproj", "{9CD6D0FE-85A5-4153-B290-75A0E6486F65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{0886DA54-2CAA-46C7-8C89-D719A3399970}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0886DA54-2CAA-46C7-8C89-D719A3399970}.Release|x86.ActiveCfg = Release|x86
 		{0886DA54-2CAA-46C7-8C89-D719A3399970}.Release|x86.Build.0 = Release|x86
+		{9CD6D0FE-85A5-4153-B290-75A0E6486F65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CD6D0FE-85A5-4153-B290-75A0E6486F65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CD6D0FE-85A5-4153-B290-75A0E6486F65}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9CD6D0FE-85A5-4153-B290-75A0E6486F65}.Debug|x86.Build.0 = Debug|Any CPU
+		{9CD6D0FE-85A5-4153-B290-75A0E6486F65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CD6D0FE-85A5-4153-B290-75A0E6486F65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CD6D0FE-85A5-4153-B290-75A0E6486F65}.Release|x86.ActiveCfg = Release|Any CPU
+		{9CD6D0FE-85A5-4153-B290-75A0E6486F65}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
