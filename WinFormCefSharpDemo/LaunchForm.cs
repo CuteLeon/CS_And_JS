@@ -17,7 +17,7 @@ namespace WinFormCefSharpDemo
 
         private void cefSharpButton_Click(object sender, EventArgs e)
         {
-
+            new CefSharpLoginForm().Show(this);
         }
     }
 }

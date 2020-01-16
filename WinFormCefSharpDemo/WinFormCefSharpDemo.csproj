@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CefSharpLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CefSharpLoginForm.Designer.cs">
+      <DependentUpon>CefSharpLoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LaunchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +67,9 @@
     <Compile Include="WebBrowserLoginForm.Designer.cs">
       <DependentUpon>WebBrowserLoginForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CefSharpLoginForm.resx">
+      <DependentUpon>CefSharpLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LaunchForm.resx">
       <DependentUpon>LaunchForm.cs</DependentUpon>
     </EmbeddedResource>

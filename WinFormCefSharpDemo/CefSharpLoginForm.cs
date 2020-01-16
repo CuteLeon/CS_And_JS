@@ -1,56 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using CefSharp;
-using CefSharp.Enums;
-using CefSharp.Event;
-using CefSharp.Handler;
-using CefSharp.Internals;
-using CefSharp.ModelBinding;
-using CefSharp.SchemeHandler;
-using CefSharp.Structs;
 using CefSharp.WinForms;
-using CefSharp.WinForms.Internals;
 
-/* 使用 CefSharp 作为浏览器控件，需要.NetFramework版本为 >=4.5.2 且为x86平台，
- * 需要安装 CefSharp.Winform Nuget包，
- * 貌似不能直接从Stream读取网页内容，需要使用MainWebBrowser.RegisterResourceHandler()方法为网页流绑定地址，饭后访问这个地址，
- */
-
-namespace CS_And_JS
+namespace WinFormCefSharpDemo
 {
     public partial class CefSharpLoginForm : Form
     {
-        ChromiumWebBrowser MainWebBrowser;
-
         public CefSharpLoginForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            //TODO: 允许绑定JS对象
             CefSharpSettings.LegacyJavascriptBindingEnabled = true;
 
-            //TODO: 此处构造不可使用无参构造程序，否则下面会要求为IBrowser注册资源句柄；
-            MainWebBrowser = new ChromiumWebBrowser("");
-
             //TODO: 为浏览器注册自定义流到指定的网址，并访问以显示自定义的流
-            MainWebBrowser.RegisterResourceHandler("http://www.LoginForm.com", GetHTMLStream(), "text/html");
-            MainWebBrowser.Load("http://www.LoginForm.com");
+            this.MainWebBrowser.RegisterResourceHandler("http://www.LoginForm.com", this.GetHTMLStream(), "text/html");
+            this.MainWebBrowser.Load("http://www.LoginForm.com");
             //TODO: 注册JS对象并命名，JS中使用此命名调用对象方法，最后赋值为false是为了忽略方法大小写，否则只能调用小写字母开头的方法
-            MainWebBrowser.RegisterJsObject("LoginHost", this, new BindingOptions() {  CamelCaseJavascriptNames = false});
-            
+            this.MainWebBrowser.RegisterJsObject("LoginHost", new BoundModel(this.MainWebBrowser), new BindingOptions() { CamelCaseJavascriptNames = false });
+
             //禁用右键菜单
-            MainWebBrowser.MenuHandler = new DisableMenuHandler();
-            MainWebBrowser.Parent = this;
-            MainWebBrowser.Dock = DockStyle.Fill;
+            this.MainWebBrowser.MenuHandler = new DisableMenuHandler();
         }
 
         private MemoryStream GetHTMLStream()
@@ -186,6 +157,43 @@ namespace CS_And_JS
 
             return new MemoryStream(Encoding.UTF8.GetBytes(HTMLContent));
         }
+    }
+
+    /// <summary>
+    /// 禁用菜单事件
+    /// </summary>DisableMenuHandler
+    public class DisableMenuHandler : IContextMenuHandler
+    {
+        void IContextMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+        {
+            model.Clear();
+        }
+
+        bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+        {
+            return false;
+        }
+
+        void IContextMenuHandler.OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        { }
+
+        bool IContextMenuHandler.RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 新版 CefSharp 无法传入 .Net Framework 内置类型为 JS 对象，所以需要新建类型，在 Form 和 JS 之间中转；
+    /// </summary>
+    public class BoundModel
+    {
+        private readonly ChromiumWebBrowser webBrowser;
+
+        public BoundModel(ChromiumWebBrowser webBrowser)
+        {
+            this.webBrowser = webBrowser;
+        }
 
         //TODO : 被 JS 调用的方法必须为 Public ;
         public void CheckLogin(string UserName, string Password)
@@ -193,7 +201,7 @@ namespace CS_And_JS
             if (UserName == "123" && Password == "456")
             {
                 //TODO : Client 调用 Browser 代码；
-                MainWebBrowser.ExecuteScriptAsync("LoginSuccessfully", new String[] { "登录成功，欢迎访问！" });
+                this.webBrowser.ExecuteScriptAsync("LoginSuccessfully", new string[] { "登录成功，欢迎访问！" });
                 /* 或使用 EvaluateScriptAsync 方法可以获取JS返回结果；
                 var task = MainWebBrowser.EvaluateScriptAsync("LoginSuccessfully", "123");
                 => task.Result
@@ -204,17 +212,5 @@ namespace CS_And_JS
                 MessageBox.Show("用户名或密码输入错误，请重新输入！");
             }
         }
-
-    }
-
-    /// <summary>
-    /// 禁用菜单事件
-    /// </summary>DisableMenuHandler
-    public class  : IContextMenuHandler
-    {
-        void CefSharp.IContextMenuHandler.OnBeforeContextMenu(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IContextMenuParams parameters, CefSharp.IMenuModel model) => model.Clear();
-        bool CefSharp.IContextMenuHandler.OnContextMenuCommand(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IContextMenuParams parameters, CefSharp.CefMenuCommand commandId, CefSharp.CefEventFlags eventFlags) => false;
-        void CefSharp.IContextMenuHandler.OnContextMenuDismissed(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame) {}
-        bool CefSharp.IContextMenuHandler.RunContextMenu(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IContextMenuParams parameters, CefSharp.IMenuModel model, CefSharp.IRunContextMenuCallback callback) => false;
     }
 }
