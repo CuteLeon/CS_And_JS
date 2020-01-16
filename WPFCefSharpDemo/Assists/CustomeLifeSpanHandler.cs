@@ -1,7 +1,7 @@
 ﻿using System;
 using CefSharp;
 
-namespace WPFCefSharpDemo
+namespace WPFCefSharpDemo.Assists
 {
     /// <summary>
     /// 自定义生命周期处理器

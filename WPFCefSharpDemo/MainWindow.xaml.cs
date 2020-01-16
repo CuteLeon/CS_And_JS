@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using CefSharp;
 using CefSharp.Wpf;
+using WPFCefSharpDemo.ViewModels;
 
 namespace WPFCefSharpDemo
 {
@@ -9,6 +11,11 @@ namespace WPFCefSharpDemo
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// 视图模型
+        /// </summary>
+        public ContainerViewModel ViewModel { get; set; }
+
         public MainWindow()
         {
             CefSettings settings = new CefSettings()
@@ -18,6 +25,17 @@ namespace WPFCefSharpDemo
             Cef.Initialize(settings);
 
             this.InitializeComponent();
+
+            this.ViewModel = new ContainerViewModel
+            {
+                CurrentTab = new TabViewModel() { SourceUri = new Uri("https://www.zhihu.com") }
+            };
+
+            this.ViewModel.Tabs.Add(new TabViewModel() { SourceUri = new Uri("https://www.a.com") });
+            this.ViewModel.Tabs.Add(new TabViewModel() { SourceUri = new Uri("https://www.b.com") });
+            this.ViewModel.Tabs.Add(new TabViewModel() { SourceUri = new Uri("https://www.c.com") });
+
+            this.DataContext = this.ViewModel;
         }
     }
 }

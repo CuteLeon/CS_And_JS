@@ -4,13 +4,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFCefSharpDemo"
+        xmlns:assists="clr-namespace:WPFCefSharpDemo.Assists"
+        xmlns:converters="clr-namespace:WPFCefSharpDemo.Converters"
+        xmlns:viewModels="clr-namespace:WPFCefSharpDemo.ViewModels"
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding Tabs.Count}" Height="450" Width="800">
     <Window.Resources>
-        <local:CustomeLifeSpanHandler x:Key="customeLifeSpanHandler"></local:CustomeLifeSpanHandler>
+        <assists:CustomeLifeSpanHandler x:Key="customeLifeSpanHandler"/>
+        <converters:UriValueConverter x:Key="uriValueConverter"/>
     </Window.Resources>
     <Grid>
-        <cefSharp:ChromiumWebBrowser x:Name="MainWebBrowser" LifeSpanHandler="{StaticResource customeLifeSpanHandler}" Address="https://www.bilibili.com"></cefSharp:ChromiumWebBrowser>
+        <TabControl ItemsSource="{Binding Tabs}">
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type viewModels:TabViewModel}">
+                    <TextBlock Text="Item模板"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type viewModels:TabViewModel}">
+                    <TextBlock Text="{Binding SourceUri, Converter={StaticResource uriValueConverter}}"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+
+            <TabItem>
+                <TabItem.Header>Header</TabItem.Header>
+                <viewModels:TabViewModel SourceUri="http://www.content.com"/>
+            </TabItem>
+        </TabControl>
+        
+        <!--
+        <cefSharp:ChromiumWebBrowser x:Name="MainWebBrowser" LifeSpanHandler="{StaticResource customeLifeSpanHandler}" Address="{Binding CurrentTab.SourceUri}"/>
+        -->
     </Grid>
 </Window>

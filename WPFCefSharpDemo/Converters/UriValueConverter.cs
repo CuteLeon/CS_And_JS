@@ -8,12 +8,12 @@ namespace WPFCefSharpDemo.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return new Uri(value as string);
+            return (value is Uri uri) ? uri.AbsoluteUri : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is Uri uri) ? uri.AbsoluteUri : string.Empty;
+            return new Uri(value as string);
         }
     }
 }
