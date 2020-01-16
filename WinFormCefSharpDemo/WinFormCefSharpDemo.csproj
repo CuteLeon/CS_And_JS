@@ -67,6 +67,12 @@
     <Compile Include="WebBrowserLoginForm.Designer.cs">
       <DependentUpon>WebBrowserLoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WebViewLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WebViewLoginForm.Designer.cs">
+      <DependentUpon>WebViewLoginForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="CefSharpLoginForm.resx">
       <DependentUpon>CefSharpLoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -85,6 +91,9 @@
     <EmbeddedResource Include="WebBrowserLoginForm.resx">
       <DependentUpon>WebBrowserLoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WebViewLoginForm.resx">
+      <DependentUpon>WebViewLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -101,6 +110,9 @@
   <ItemGroup>
     <PackageReference Include="CefSharp.WinForms">
       <Version>75.1.143</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView">
+      <Version>6.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

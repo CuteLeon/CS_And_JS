@@ -19,5 +19,10 @@ namespace WinFormCefSharpDemo
         {
             new CefSharpLoginForm().Show(this);
         }
+
+        private void webViewButton_Click(object sender, EventArgs e)
+        {
+            new WebViewLoginForm().Show(this);
+        }
     }
 }
