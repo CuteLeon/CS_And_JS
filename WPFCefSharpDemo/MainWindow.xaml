@@ -4,26 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFCefSharpDemo"
-        xmlns:assists="clr-namespace:WPFCefSharpDemo.Assists"
         xmlns:converters="clr-namespace:WPFCefSharpDemo.Converters"
         xmlns:viewModels="clr-namespace:WPFCefSharpDemo.ViewModels"
-        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Title="{Binding Tabs.Count}" Height="450" Width="800">
+        Title="{Binding Tabs.Count, StringFormat='{}标签数量：{0}'}" Height="450" Width="800">
     <Window.Resources>
-        <assists:CustomeLifeSpanHandler x:Key="customeLifeSpanHandler"/>
         <converters:UriValueConverter x:Key="uriValueConverter"/>
     </Window.Resources>
     <Grid>
         <TabControl ItemsSource="{Binding Tabs}" SelectedItem="{Binding CurrentTab}">
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type viewModels:TabViewModel}">
-                    <Grid Width="100">
+                    <Grid Width="Auto">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto" MinWidth="100" MaxWidth="200"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Title}"/>
+                        <TextBlock Grid.Column="0" Text="{Binding Title}" Margin="5" ToolTip="{Binding Title}"/>
                         <Button Grid.Column="1" Width="20">X</Button>
                     </Grid>
                 </DataTemplate>
@@ -31,7 +28,7 @@
 
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type viewModels:TabViewModel}">
-                    <cefSharp:ChromiumWebBrowser LifeSpanHandler="{StaticResource customeLifeSpanHandler}" Address="{Binding SourceUri}"/>
+                    <ContentPresenter Content="{Binding TabWebBrowser}"/>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

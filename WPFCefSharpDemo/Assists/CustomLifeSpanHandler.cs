@@ -7,7 +7,7 @@ namespace WPFCefSharpDemo.Assists
     /// 自定义生命周期处理器
     /// </summary>
     /// <remarks> 控制链接弹出方式 </remarks>
-    public class CustomeLifeSpanHandler : ILifeSpanHandler
+    public class CustomLifeSpanHandler : ILifeSpanHandler
     {
         public bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {

@@ -28,8 +28,8 @@ namespace WPFCefSharpDemo
             this.InitializeComponent();
 
             this.ViewModel = new ContainerViewModel();
-            this.ViewModel.Tabs.Add(new TabViewModel() { Title = "知乎", SourceUri = new Uri("https://www.zhihu.com") });
-            this.ViewModel.Tabs.Add(new TabViewModel() { Title = "百度", SourceUri = new Uri("https://www.baidu.com") });
+            this.ViewModel.Tabs.Add(new TabViewModel() { Title = "默认标签名称", SourceUri = new Uri("https://www.zhihu.com") });
+            this.ViewModel.Tabs.Add(new TabViewModel() { Title = "默认标签名称", SourceUri = new Uri("https://www.baidu.com") });
             this.ViewModel.CurrentTab = this.ViewModel.Tabs.FirstOrDefault();
 
             this.DataContext = this.ViewModel;
