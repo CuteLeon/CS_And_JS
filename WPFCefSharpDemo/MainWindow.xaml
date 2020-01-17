@@ -4,15 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFCefSharpDemo"
-        xmlns:converters="clr-namespace:WPFCefSharpDemo.Converters"
         xmlns:viewModels="clr-namespace:WPFCefSharpDemo.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding Tabs.Count, StringFormat='{}标签数量：{0}'}" Height="450" Width="800">
-    <Window.Resources>
-        <converters:UriValueConverter x:Key="uriValueConverter"/>
-    </Window.Resources>
+        Title="{Binding Tabs.Count, StringFormat='{}标签数量：{0}'}"
+        Height="450" Width="800">
     <Grid>
-        <TabControl ItemsSource="{Binding Tabs}" SelectedItem="{Binding CurrentTab}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+            <Button Content="后退" IsEnabled="{Binding CurrentTab.CanGoBack}" Command="{Binding CurrentTab.BackCommand}"/>
+            <Button Content="前进" IsEnabled="{Binding CurrentTab.CanGoForward}" Command="{Binding CurrentTab.ForwardCommand}"/>
+            <TextBox x:Name="UriTextBox" Text="{Binding CurrentTab.SourceUri, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="300"/>
+            <Button Content="导航" Command="{Binding CurrentTab.NavigateCommand}" CommandParameter="{Binding Text, ElementName=UriTextBox}"/>
+        </ToolBar>
+
+        <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" SelectedItem="{Binding CurrentTab}">
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type viewModels:TabViewModel}">
                     <Grid Width="Auto">

@@ -57,6 +57,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Assists\DelegateCommand.cs" />
+    <Compile Include="Assists\DelegateCommandGeneric.cs" />
     <Compile Include="ViewModels\ContainerViewModel.cs" />
     <Compile Include="ViewModels\TabViewModel.cs" />
     <Page Include="MainWindow.xaml">
