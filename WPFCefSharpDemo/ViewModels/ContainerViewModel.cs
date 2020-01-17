@@ -13,6 +13,36 @@ namespace WPFCefSharpDemo.ViewModels
             {
                 this.Tabs.Add(this.CurrentTab = new TabViewModel() { Title = "新建标签", SourceUri = new Uri("https://www.baidu.com") });
             });
+
+            this.CloseTabCommand = new DelegateCommand<TabViewModel>((tab) =>
+            {
+                int index = Tabs.IndexOf(tab);
+                if (index == -1)
+                {
+                    return;
+                }
+
+                if (tab.TabWebBrowser != null)
+                {
+                    tab.TabWebBrowser.StopCommand.Execute(tab.TabWebBrowser);
+                    tab.TabWebBrowser.Dispose();
+                }
+
+                this.Tabs.RemoveAt(index);
+
+                if (this.CurrentTab == tab)
+                {
+                    if (this.Tabs.Count == 0)
+                    {
+                        this.CurrentTab = null;
+                    }
+                    else
+                    {
+                        index = Math.Min(index, this.Tabs.Count - 1);
+                        this.CurrentTab = this.Tabs[index];
+                    }
+                }
+            });
         }
 
         #region 属性
@@ -26,6 +56,8 @@ namespace WPFCefSharpDemo.ViewModels
         #region 命令
 
         public DelegateCommand NewTabCommand { get; set; }
+
+        public DelegateCommand<TabViewModel> CloseTabCommand { get; protected set; }
         #endregion
     }
 }

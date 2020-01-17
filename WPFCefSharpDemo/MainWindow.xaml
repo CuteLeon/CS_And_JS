@@ -42,7 +42,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding Title}" Margin="5" ToolTip="{Binding Title}"/>
-                        <Button Grid.Column="1" Width="20">X</Button>
+                        <Button Grid.Column="1" Width="20" Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}" CommandParameter="{Binding}">X</Button>
                     </Grid>
                 </DataTemplate>
             </TabControl.ItemTemplate>
