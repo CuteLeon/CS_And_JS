@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using CefSharp;
 using CefSharp.Wpf;
@@ -26,14 +27,10 @@ namespace WPFCefSharpDemo
 
             this.InitializeComponent();
 
-            this.ViewModel = new ContainerViewModel
-            {
-                CurrentTab = new TabViewModel() { SourceUri = new Uri("https://www.zhihu.com") }
-            };
-
-            this.ViewModel.Tabs.Add(new TabViewModel() { SourceUri = new Uri("https://www.a.com") });
-            this.ViewModel.Tabs.Add(new TabViewModel() { SourceUri = new Uri("https://www.b.com") });
-            this.ViewModel.Tabs.Add(new TabViewModel() { SourceUri = new Uri("https://www.c.com") });
+            this.ViewModel = new ContainerViewModel();
+            this.ViewModel.Tabs.Add(new TabViewModel() { Title = "知乎", SourceUri = new Uri("https://www.zhihu.com") });
+            this.ViewModel.Tabs.Add(new TabViewModel() { Title = "百度", SourceUri = new Uri("https://www.baidu.com") });
+            this.ViewModel.CurrentTab = this.ViewModel.Tabs.FirstOrDefault();
 
             this.DataContext = this.ViewModel;
         }

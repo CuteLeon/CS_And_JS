@@ -15,27 +15,25 @@
         <converters:UriValueConverter x:Key="uriValueConverter"/>
     </Window.Resources>
     <Grid>
-        <TabControl ItemsSource="{Binding Tabs}">
+        <TabControl ItemsSource="{Binding Tabs}" SelectedItem="{Binding CurrentTab}">
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type viewModels:TabViewModel}">
-                    <TextBlock Text="Item模板"/>
+                    <Grid Width="100">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Title}"/>
+                        <Button Grid.Column="1" Width="20">X</Button>
+                    </Grid>
                 </DataTemplate>
             </TabControl.ItemTemplate>
 
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type viewModels:TabViewModel}">
-                    <TextBlock Text="{Binding SourceUri, Converter={StaticResource uriValueConverter}}"/>
+                    <cefSharp:ChromiumWebBrowser LifeSpanHandler="{StaticResource customeLifeSpanHandler}" Address="{Binding SourceUri}"/>
                 </DataTemplate>
             </TabControl.ContentTemplate>
-
-            <TabItem>
-                <TabItem.Header>Header</TabItem.Header>
-                <viewModels:TabViewModel SourceUri="http://www.content.com"/>
-            </TabItem>
         </TabControl>
-        
-        <!--
-        <cefSharp:ChromiumWebBrowser x:Name="MainWebBrowser" LifeSpanHandler="{StaticResource customeLifeSpanHandler}" Address="{Binding CurrentTab.SourceUri}"/>
-        -->
     </Grid>
 </Window>
