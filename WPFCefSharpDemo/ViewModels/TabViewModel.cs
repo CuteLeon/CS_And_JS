@@ -53,6 +53,7 @@ namespace WPFCefSharpDemo.ViewModels
         #region 命令
 
         public DelegateCommand<string> NavigateCommand { get; protected set; }
+
         public ICommand BackCommand { get; protected set; }
         public ICommand ForwardCommand { get; protected set; }
         public ICommand ReloadCommand { get; protected set; }

@@ -17,8 +17,20 @@
         <ToolBar Grid.Row="0">
             <Button Content="后退" IsEnabled="{Binding CurrentTab.CanGoBack}" Command="{Binding CurrentTab.BackCommand}"/>
             <Button Content="前进" IsEnabled="{Binding CurrentTab.CanGoForward}" Command="{Binding CurrentTab.ForwardCommand}"/>
+            <Button Content="刷新" Command="{Binding CurrentTab.ReloadCommand}"/>
+            <Separator/>
+
+            <Button Content="新建标签" Command="{Binding NewTabCommand}"/>
+            <Separator/>
+
             <TextBox x:Name="UriTextBox" Text="{Binding CurrentTab.SourceUri, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="300"/>
             <Button Content="导航" Command="{Binding CurrentTab.NavigateCommand}" CommandParameter="{Binding Text, ElementName=UriTextBox}"/>
+            <Button Content="停止" Command="{Binding CurrentTab.StopCommand}"/>
+            <Separator/>
+
+            <Button Content="放大" Command="{Binding CurrentTab.ZoomInCommand}"/>
+            <Button Content="缩小" Command="{Binding CurrentTab.ZoomOutCommand}"/>
+            <Button Content="还原" Command="{Binding CurrentTab.ZoomResetCommand}"/>
         </ToolBar>
 
         <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" SelectedItem="{Binding CurrentTab}">
