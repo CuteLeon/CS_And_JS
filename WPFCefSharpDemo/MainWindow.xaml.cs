@@ -24,6 +24,7 @@ namespace WPFCefSharpDemo
                 BackgroundColor = 0xF00,
             };
             Cef.Initialize(settings);
+            TabViewModel.LifeSpanHandler.NewTabPopup += this.LifeSpanHandler_NewTabPopup;
 
             this.InitializeComponent();
 
@@ -33,6 +34,14 @@ namespace WPFCefSharpDemo
             this.ViewModel.CurrentTab = this.ViewModel.Tabs.FirstOrDefault();
 
             this.DataContext = this.ViewModel;
+        }
+
+        private void LifeSpanHandler_NewTabPopup(object sender, string targetUrl)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.ViewModel.Tabs.Add(this.ViewModel.CurrentTab = new TabViewModel() { Title = "弹出标签", SourceUri = new Uri(targetUrl) });
+            });
         }
     }
 }

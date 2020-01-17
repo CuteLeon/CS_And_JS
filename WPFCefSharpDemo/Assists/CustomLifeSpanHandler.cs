@@ -9,25 +9,21 @@ namespace WPFCefSharpDemo.Assists
     /// <remarks> 控制链接弹出方式 </remarks>
     public class CustomLifeSpanHandler : ILifeSpanHandler
     {
-        // TODO: 弹出式链接在新 Tab 显示
+        public event EventHandler<string> NewTabPopup;
 
         public bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
-        {
-            return false;
-        }
+            => false;
 
         public void OnAfterCreated(IWebBrowser chromiumWebBrowser, IBrowser browser)
-        {
-        }
+        { }
 
         public void OnBeforeClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
-        {
-        }
+        { }
 
         public bool OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
             newBrowser = null;
-            chromiumWebBrowser.Load(targetUrl);
+            this.NewTabPopup?.Invoke(chromiumWebBrowser, targetUrl);
             return true;
         }
     }

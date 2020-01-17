@@ -9,11 +9,13 @@ namespace WPFCefSharpDemo.ViewModels
 {
     public class TabViewModel : DependencyObject
     {
+        public static CustomLifeSpanHandler LifeSpanHandler { get; } = new CustomLifeSpanHandler();
+
         public TabViewModel()
         {
             this.TabWebBrowser = new ChromiumWebBrowser()
             {
-                LifeSpanHandler = new CustomLifeSpanHandler(),
+                LifeSpanHandler = TabViewModel.LifeSpanHandler,
             };
 
             this.TabWebBrowser.SetBinding(ChromiumWebBrowser.AddressProperty, new Binding(nameof(this.SourceUri)) { Source = this, Mode = BindingMode.TwoWay });
