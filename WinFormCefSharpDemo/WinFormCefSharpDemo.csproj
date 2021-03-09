@@ -109,7 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CefSharp.WinForms">
-      <Version>85.3.130</Version>
+      <Version>86.0.241</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView">
       <Version>6.0.0</Version>
